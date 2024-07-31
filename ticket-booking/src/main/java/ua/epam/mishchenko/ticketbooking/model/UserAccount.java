@@ -1,34 +1,20 @@
 package ua.epam.mishchenko.ticketbooking.model;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "user_accounts")
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Document(collection = "user_accounts")
 public class UserAccount {
 
-    /**
-     * The user account id.
-     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    /**
-     * The user entity.
-     */
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @DBRef
     private User user;
 
-    /**
-     * The amount of user money.
-     */
-    @Column(name = "money", nullable = false)
     private BigDecimal money;
 
     public UserAccount() {
@@ -39,17 +25,17 @@ public class UserAccount {
         this.money = money;
     }
 
-    public UserAccount(Long id, User user, BigDecimal money) {
+    public UserAccount(String id, User user, BigDecimal money) {
         this.id = id;
         this.user = user;
         this.money = money;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
